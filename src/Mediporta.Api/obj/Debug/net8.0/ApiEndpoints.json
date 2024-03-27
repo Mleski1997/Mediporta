@@ -1,0 +1,12 @@
+[
+  {
+    "ContainingType": "Mediporta.Api.Controllers.TagController",
+    "Method": "GetTag",
+    "RelativePath": "api/Tag",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  }
+]
