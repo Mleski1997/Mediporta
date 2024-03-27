@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Mediporta.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0364678d43f6fbf53b7633cdc39ce0ded3ae37a0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a96df553149f5e726e46f8f48ba8a76bae2afa4f")]
 [assembly: System.Reflection.AssemblyProductAttribute("Mediporta.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Mediporta.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -2,8 +2,10 @@
 
 namespace Mediporta.Api.Service
 {
-    public interface ITagService
+    public interface IItemService
     {
         Task<List<Item>> GetTags();
+        Task UpdateDBFromExternalApi();
+        
     }
 }

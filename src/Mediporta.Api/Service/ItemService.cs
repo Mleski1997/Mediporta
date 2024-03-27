@@ -1,20 +1,27 @@
 ﻿using Mediporta.Api.Dto;
 using Mediporta.Api.Models;
+using Mediporta.Api.Repository;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
 
 namespace Mediporta.Api.Service
 {
-    public class TagService : ITagService
+    public class ItemService : IItemService
     {
         private readonly HttpClient _client;
+        private readonly IItemRepository _itemRepository;
 
-        public TagService()
+        public ItemService(IItemRepository itemRepository)
         {
             _client = new HttpClient(new HttpClientHandler
             {
                 AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate
             });
+            _itemRepository = itemRepository;
         }
+
+    
 
         public async Task<List<Item>> GetTags()
         {
@@ -26,6 +33,7 @@ namespace Mediporta.Api.Service
             {
                 var api = $"https://api.stackexchange.com/2.3/tags?order=desc&pagesize=100&page={pageNumber}&&sort=popular&site=stackoverflow";
                 var response = await _client.GetAsync(api);
+
                 response.EnsureSuccessStatusCode();
 
                 var stream = await response.Content.ReadAsStreamAsync();
@@ -39,15 +47,15 @@ namespace Mediporta.Api.Service
 
                 allTags.AddRange(tagResponse.items);
                 pageNumber++;
+               
 
             }
-            return allTags.Take(minTags).ToList();
-
-
-
-
+            var tags =  allTags.Take(minTags).ToList();
+            await _itemRepository.AddAsync(tags);
+            return tags;
+            
 
         }
-
+   
     }
 }

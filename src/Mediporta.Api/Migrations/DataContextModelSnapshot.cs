@@ -21,14 +21,22 @@ namespace Mediporta.Api.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Mediporta.Api.Models.Items", b =>
+            modelBuilder.Entity("Mediporta.Api.Models.Item", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasAnnotation("Relational:JsonPropertyName", "name");
 
-                    b.ToTable("Tags");
+                    b.HasKey("Id");
+
+                    b.ToTable("Items");
                 });
 #pragma warning restore 612, 618
         }

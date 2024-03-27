@@ -10,21 +10,24 @@ namespace Mediporta.Api.Controllers
     [ApiController]
     public class TagController : Controller
     {
-        private readonly ITagService _tagService;
+        private readonly IItemService _itemService;
 
-        public TagController(ITagService tagService)
+        public TagController(IItemService itemService)
         {
-            _tagService = tagService;
+            _itemService = itemService;
         }
 
 
+     
 
         [HttpGet]
-        public async Task<IActionResult> GetTag()
-        {
-            var tags = await _tagService.GetTags();
-            return Ok(tags);
-            
-        }
+    public async Task<IActionResult> GetTags()
+    {
+        var tags = await _itemService.GetTags();
+        return Ok(tags);
+    }
+
+
+
     }
 }

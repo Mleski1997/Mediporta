@@ -1,7 +1,7 @@
 [
   {
     "ContainingType": "Mediporta.Api.Controllers.TagController",
-    "Method": "GetTag",
+    "Method": "GetTags",
     "RelativePath": "api/Tag",
     "HttpMethod": "GET",
     "IsController": true,
