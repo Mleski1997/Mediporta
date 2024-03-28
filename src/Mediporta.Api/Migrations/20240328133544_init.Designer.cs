@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Mediporta.Api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240327140829_init3")]
-    partial class init3
+    [Migration("20240328133544_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,6 +31,10 @@ namespace Mediporta.Api.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Count")
+                        .HasColumnType("int")
+                        .HasAnnotation("Relational:JsonPropertyName", "count");
 
                     b.Property<string>("Name")
                         .IsRequired()

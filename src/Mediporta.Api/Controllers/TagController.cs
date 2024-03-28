@@ -1,4 +1,5 @@
-﻿using Mediporta.Api.Models;
+﻿
+using Mediporta.Api.Models;
 using Mediporta.Api.Service;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -18,14 +19,41 @@ namespace Mediporta.Api.Controllers
         }
 
 
-     
 
-        [HttpGet]
-    public async Task<IActionResult> GetTags()
-    {
-        var tags = await _itemService.GetTags();
-        return Ok(tags);
-    }
+
+        [HttpGet("FromExternalApi")]
+        public async Task<IActionResult> GetTags()
+        {
+            var tags = await _itemService.GetItemsFromExtrernalApi();
+            return Ok(tags);
+        }
+
+        [HttpGet("FromDb")]
+        public async Task<IActionResult> GetItemsFromDb(SortOrder sortOrder = SortOrder.Asceding, int page = 1, int pageSize = 10)
+        {
+           
+
+            var tags = await _itemService.GetItemsFromDB();
+
+            switch (sortOrder)
+            {
+                case SortOrder.Asceding:
+                    tags = tags.OrderBy(x => x.Name);
+                    break;
+                case SortOrder.Desceding:
+                    tags = tags.OrderByDescending(x => x.Name);
+                    break;
+                default:
+                    break;
+            }
+
+            var totalTags = tags.Count();
+            var totalPages = (int)Math.Ceiling((double)totalTags / pageSize);
+            
+            tags = tags.Skip((page - 1) * pageSize).Take(pageSize);
+
+            return Ok(tags);
+        }
 
 
 

@@ -1,5 +1,6 @@
 ﻿using Mediporta.Api.Data;
 using Mediporta.Api.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Mediporta.Api.Repository
 {
@@ -19,5 +20,10 @@ namespace Mediporta.Api.Repository
             await _context.AddRangeAsync(items);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<IEnumerable<Item>> GetItemsFromDB() => await _context.Items.ToListAsync();
+      
+
+      
     }
 }

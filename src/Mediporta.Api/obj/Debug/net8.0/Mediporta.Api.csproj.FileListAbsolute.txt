@@ -139,3 +139,4 @@ C:\Users\micha\Mediporta\src\Mediporta.Api\bin\Debug\net8.0\runtimes\win\lib\net
 C:\Users\micha\Mediporta\src\Mediporta.Api\obj\Debug\net8.0\Mediporta.Api.sourcelink.json
 C:\Users\micha\Mediporta\src\Mediporta.Api\bin\Debug\net8.0\System.Net.Http.Formatting.dll
 C:\Users\micha\Mediporta\src\Mediporta.Api\bin\Debug\net8.0\Newtonsoft.Json.Bson.dll
+C:\Users\micha\Mediporta\src\Mediporta.Api\bin\Debug\net8.0\libman.json

@@ -1,8 +1,34 @@
 [
   {
     "ContainingType": "Mediporta.Api.Controllers.TagController",
+    "Method": "GetItemsFromDb",
+    "RelativePath": "api/Tag/FromDb",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "sortOrder",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "page",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "pageSize",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Mediporta.Api.Controllers.TagController",
     "Method": "GetTags",
-    "RelativePath": "api/Tag",
+    "RelativePath": "api/Tag/FromExternalApi",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
