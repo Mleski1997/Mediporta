@@ -14,11 +14,18 @@ namespace Mediporta.Api.Repository
         }
 
       
-        public async Task AddAsync(List<Item> items)
+        public async Task AddAsync(IEnumerable<Item> items)
         {
 
             await _context.AddRangeAsync(items);
             await _context.SaveChangesAsync();
+        }
+
+      
+        public async Task DeleteAsync()
+        {
+            _context.RemoveRange();
+      
         }
 
         public async Task<IEnumerable<Item>> GetItemsFromDB() => await _context.Items.ToListAsync();

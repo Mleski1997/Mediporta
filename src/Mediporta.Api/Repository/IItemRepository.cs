@@ -4,7 +4,8 @@ namespace Mediporta.Api.Repository
 {
     public interface IItemRepository
     {
-        Task AddAsync(List<Item> items);
+        Task AddAsync(IEnumerable<Item> items);
+        Task DeleteAsync();
         Task <IEnumerable<Item>> GetItemsFromDB();
       
      

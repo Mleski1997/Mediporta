@@ -5,9 +5,10 @@ namespace Mediporta.Api.Service
 {
     public interface IItemService
     {
-        Task<List<Item>> GetItemsFromExtrernalApi();
+        Task<IEnumerable<Item>> GetItemsFromExtrernalApi();
+        Task<IEnumerable<Item>> RefreshItemsFromExternalApi();
         Task<IEnumerable<Item>> GetItemsFromDB();
-        Task<IList<ItemCountPercentDTO>> PercentCount();
+        Task<IEnumerable<ItemCountPercentDTO>> PercentCount();
 
 
     }

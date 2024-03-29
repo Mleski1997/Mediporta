@@ -56,6 +56,13 @@ namespace Mediporta.Api.Controllers
         }
 
 
+        [HttpGet("RefreshFromExternalApi")]
+        public async Task<IActionResult> GetRefreshTags()
+        {
+            var tags = await _itemService.RefreshItemsFromExternalApi();
+            return Ok(tags);
+        }
+
 
     }
 }

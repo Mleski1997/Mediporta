@@ -4,6 +4,7 @@ using Mediporta.Api.Models;
 using Mediporta.Api.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System.Text.Json;
 
 namespace Mediporta.Api.Service
@@ -12,67 +13,101 @@ namespace Mediporta.Api.Service
     {
         private readonly HttpClient _client;
         private readonly IItemRepository _itemRepository;
+        private readonly ILogger<ItemService> _logger;
 
-        public ItemService(IItemRepository itemRepository)
+        public ItemService(IItemRepository itemRepository, ILogger<ItemService> logger)
         {
             _client = new HttpClient(new HttpClientHandler
             {
                 AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate
             });
             _itemRepository = itemRepository;
+            _logger = logger;
         }
 
         public async Task<IEnumerable<Item>> GetItemsFromDB() => await _itemRepository.GetItemsFromDB();
       
 
-        public async Task<List<Item>> GetItemsFromExtrernalApi()
+        public async Task<IEnumerable<Item>> GetItemsFromExtrernalApi()
         {
-            var allTags = new List<Item>();
+            var allTags = 0;    
             var minTags = 1000;
             var pageNumber = 1;
 
-            while (allTags.Count < minTags)
+          try
             {
-                var api = $"https://api.stackexchange.com/2.3/tags?order=desc&pagesize=100&page={pageNumber}&&sort=popular&site=stackoverflow";
-                var response = await _client.GetAsync(api);
-
-                response.EnsureSuccessStatusCode();
-
-                var stream = await response.Content.ReadAsStreamAsync();
-                var tagResponse = await JsonSerializer.DeserializeAsync<ItemsDto>(stream);
-
-                if (tagResponse.items == null || tagResponse.items.Count == 0)
-
+                while (allTags < minTags)
                 {
-                    break;
+                    var api = $"https://api.stackexchange.com/2.3/tags?order=desc&pagesize=100&page={pageNumber}&sort=popular&site=stackoverflow";
+                    var response = await _client.GetAsync(api);
+
+                    response.EnsureSuccessStatusCode();
+
+                    var stream = await response.Content.ReadAsStreamAsync();
+                    var tagResponse = await JsonSerializer.DeserializeAsync<ItemsDto>(stream);
+
+                    if (tagResponse.items == null || tagResponse.items.Count == 0)
+
+                    {
+                        break;
+                    }
+
+                    await _itemRepository.AddAsync(tagResponse.items);
+                    allTags += tagResponse.items.Count;
+
+                    pageNumber++;
+
+
                 }
 
-                allTags.AddRange(tagResponse.items);
-                pageNumber++;
-
+                var result = await _itemRepository.GetItemsFromDB();
+                return result;
+            } catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error occurred while downloading tags from StackExchange API. Page: {PageNumber}", pageNumber);
+                throw;
 
             }
-            var tags = allTags.Take(minTags).ToList();
-            await _itemRepository.AddAsync(tags);
-            return tags;
         }
 
-        public async Task<IList<ItemCountPercentDTO>> PercentCount()
+        public async Task<IEnumerable<ItemCountPercentDTO>> PercentCount()
         {
-            var items = await _itemRepository.GetItemsFromDB();
-            if (items is null)
+            try
             {
-                return null;
+                var items = await _itemRepository.GetItemsFromDB();
+                if (items is null)
+                {
+                    return null;
+                }
+                var sum = items.Sum(t => t.Count);
+
+                var percent = items.Select(t => new ItemCountPercentDTO
+                {
+                    Name = t.Name,
+                    Percent = (double)t.Count / sum * 100
+                }).ToList();
+
+                return percent;
+            } catch (Exception ex)
+            {
+                _logger.LogError(ex, "Something went warong");
+                throw;
             }
-            var sum = items.Sum(t => t.Count);
+        }
 
-            var percent = items.Select(t => new ItemCountPercentDTO
+        public async Task<IEnumerable<Item>> RefreshItemsFromExternalApi()
+        {
+           try
             {
-                Name = t.Name,
-                Percent = (double)t.Count / sum * 100
-            }).ToList();
-
-            return percent;
+                await _itemRepository.DeleteAsync();
+                return await GetItemsFromExtrernalApi();
+            } 
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error refreshing tags");
+                throw;
+            }
+           
         }
     }
 }
