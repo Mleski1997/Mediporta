@@ -18,9 +18,6 @@ namespace Mediporta.Api.Controllers
             _itemService = itemService;
         }
 
-
-
-
         [HttpGet("FromExternalApi")]
         public async Task<IActionResult> GetTags()
         {
@@ -63,6 +60,11 @@ namespace Mediporta.Api.Controllers
             return Ok(tags);
         }
 
-
+        [HttpGet("Percent")]
+        public async Task<IActionResult> GetPercentTags()
+        {
+            var percentages = await _itemService.PercentCount();
+            return Ok(percentages);
+        }
     }
 }

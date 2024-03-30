@@ -61,6 +61,8 @@ namespace Mediporta.Api.Service
                 }
 
                 var result = await _itemRepository.GetItemsFromDB();
+                
+               
                 return result;
             } catch (Exception ex)
             {
@@ -75,9 +77,9 @@ namespace Mediporta.Api.Service
             try
             {
                 var items = await _itemRepository.GetItemsFromDB();
-                if (items is null)
+                if (items == null)
                 {
-                    return null;
+                    return new List<ItemCountPercentDTO>();
                 }
                 var sum = items.Sum(t => t.Count);
 
@@ -87,10 +89,14 @@ namespace Mediporta.Api.Service
                     Percent = (double)t.Count / sum * 100
                 }).ToList();
 
+               
+               
                 return percent;
+               
+                
             } catch (Exception ex)
             {
-                _logger.LogError(ex, "Something went warong");
+                _logger.LogError(ex, "An error occurred during the percentage calculation of item counts.");
                 throw;
             }
         }
@@ -101,10 +107,11 @@ namespace Mediporta.Api.Service
             {
                 await _itemRepository.DeleteAsync();
                 return await GetItemsFromExtrernalApi();
+               
             } 
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error refreshing tags");
+                _logger.LogError(ex, "An error during resfreshing tags");
                 throw;
             }
            

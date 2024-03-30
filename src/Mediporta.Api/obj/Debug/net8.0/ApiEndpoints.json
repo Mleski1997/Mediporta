@@ -37,6 +37,16 @@
   },
   {
     "ContainingType": "Mediporta.Api.Controllers.TagController",
+    "Method": "GetPercentTags",
+    "RelativePath": "api/Tag/Percent",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Mediporta.Api.Controllers.TagController",
     "Method": "GetRefreshTags",
     "RelativePath": "api/Tag/RefreshFromExternalApi",
     "HttpMethod": "GET",

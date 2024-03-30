@@ -1,0 +1,103 @@
+openapi: 3.1.0
+info:
+  title: Mediporta API
+  description: API do zarzadzania tagami z Stack Overflow
+  version: "1.0"
+servers:
+  - url: 'https://localhost:7281/api'
+paths:
+  /tags/fromdb:
+    get:
+      summary: Pobiera tagi z bazy danych
+      operationId: getTagsFromDb
+      tags:
+        - Tag
+      responses:
+        '200':
+          description: Lista tagów pobrana pomyslnie
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tag'
+        '500':
+          description: Blad serwera
+
+  /tags/fromexternalapi:
+    get:
+      summary: Pobiera tagi z zewnetrznego API Stack Overflow
+      operationId: getTagsFromExternalApi
+      tags:
+        - Tag
+      responses:
+        '200':
+          description: Tagi pobrane pomyslnie z zewnetrznego API
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Tag'
+        '500':
+          description: Blad serwera
+
+  /tags/percentcount:
+    get:
+      summary: Oblicza procentowy udzial tagów
+      operationId: calculateTagPercentCount
+      tags:
+        - Tag
+      responses:
+        '200':
+          description: Procentowy udzial tagów obliczony pomyslnie
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ItemCountPercentDTO'
+        '500':
+          description: Blad serwera
+
+  /tags/refresh:
+    post:
+      summary: Odswieza tagi pobierajac je ponownie z zewnetrznego API
+      operationId: refreshTagsFromExternalApi
+      tags:
+        - Tag
+      responses:
+        '200':
+          description: Tagi zostaly odswiezone pomyslnie
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Tagi zostaly odswiezone.
+        '500':
+          description: Blad serwera
+
+components:
+  schemas:
+    Tag:
+      type: object
+      properties:
+        name:
+          type: string
+          example: 'JavaScript'
+        count:
+          type: integer
+          example: 150
+    ItemCountPercentDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          example: 'JavaScript'
+        percent:
+          type: number
+          format: double
+          example: 25.0
