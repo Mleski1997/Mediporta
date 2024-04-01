@@ -25,9 +25,7 @@ namespace Mediporta.Api.Repository
         public async Task DeleteAsync()
         {
             var all = await _context.Items.ToListAsync();
-           _context.Items.RemoveRange(all);
-
-      
+           _context.Items.RemoveRange(all);     
         }
 
         public async Task<IEnumerable<Item>> GetItemsFromDB() => await _context.Items.ToListAsync();

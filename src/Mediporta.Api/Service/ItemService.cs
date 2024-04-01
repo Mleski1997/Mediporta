@@ -25,6 +25,9 @@ namespace Mediporta.Api.Service
             _logger = logger;
         }
 
+        public async Task AddAsync(IEnumerable<Item> items) => await  _itemRepository.AddAsync(items);
+
+
         public async Task<IEnumerable<Item>> GetItemsFromDB() => await _itemRepository.GetItemsFromDB();
       
 

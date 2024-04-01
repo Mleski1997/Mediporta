@@ -9,6 +9,8 @@ namespace Mediporta.Api.Service
         Task<IEnumerable<Item>> RefreshItemsFromExternalApi();
         Task<IEnumerable<Item>> GetItemsFromDB();
         Task<IEnumerable<ItemCountPercentDTO>> PercentCount();
+        Task AddAsync(IEnumerable<Item> items);
+        
 
 
     }
