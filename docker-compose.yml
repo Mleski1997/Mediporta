@@ -1,14 +1,16 @@
 version: '3.4'
 
 services:
-  medipoera-app:
+  mediporta-app:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
     build:
-      context: ./Mediporta.Api
+      context: src/Mediporta.Api
       dockerfile: Dockerfile
     ports:
-      - '7219:80'
+     - "7219:80"
     depends_on:
-      - db
+     - db
 
   db:
     image: mcr.microsoft.com/mssql/server:2022-latest
@@ -17,3 +19,8 @@ services:
       ACCEPT_EULA: Y
     ports:
       - '1433:1433'
+    volumes:
+      - sql_data:/var/opt/mssql
+
+volumes:
+  sql_data:
