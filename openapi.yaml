@@ -4,7 +4,7 @@ info:
   description: API do zarzadzania tagami z Stack Overflow
   version: "1.0"
 servers:
-  - url: 'https://localhost:7281/api'
+  - url: 'http://localhost:7219/swagger/index.html'
 paths:
   /tags/fromdb:
     get:
