@@ -14,7 +14,7 @@ paths:
         - Tag
       responses:
         '200':
-          description: Lista tagów pobrana pomyslnie
+          description: Lista tagów pobrana pomyslnie z bazy danych
           content:
             application/json:
               schema:
